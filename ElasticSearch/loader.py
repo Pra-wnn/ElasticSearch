@@ -5,6 +5,7 @@ from elasticsearch import Elasticsearch
 es = Elasticsearch(hosts=["http://127.0.0.1:9200"])
 
 # Define index settings and mappings
+# Works with unicode chartacters such as Japnese,Chinese Characters
 index_settings = {
     "settings": {
         "analysis": {
