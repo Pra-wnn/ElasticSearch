@@ -9,25 +9,28 @@
     <script>
       $(document).ready(function() {
         let debounce;
-        $('.search-box').on('keydown', function (e) { 
-          clearTimeout(debounce)
+        $('.search-box').on('input', function (e) {
+          clearTimeout(debounce);
           debounce = setTimeout(() => {
-                  getAutoComplete();  
+            getAutoComplete();
           }, 300);
-        })
-      })
+        });
 
-      function getAutoComplete() {
-              const query = $('.search-box').val();
-              fetch(`http://localhost:5000/search?q=${encodeURIComponent(query.trim())}`)
-                .then((resp) => resp.json())
-                .then((data) => {
-                        $('.results').empty();
-                        for (let i = 0; i < data.length; i++) {
-                                $('.results').append(`<li>${data[i]}</li>`)
-                        }
-                      })
-      }
+        function getAutoComplete() {
+          const query = $('.search-box').val();
+          fetch(`http://localhost:5000/search?q=${encodeURIComponent(query.trim())}`)
+            .then((resp) => resp.json())
+            .then((data) => {
+              $('.results').empty();
+              data.forEach(item => {
+                $('.results').append(`<li>${item}</li>`);
+              });
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error);
+            });
+        }
+      });
     </script>
   </body>
 </html>
